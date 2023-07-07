@@ -3,14 +3,14 @@ import mongoose, { Document, Model } from "mongoose";
 
 // Define an interface for User document
 interface IUser extends Document {
-  auth0Id: string;
+  userId: string;
   name: string;
   // add other profile fields as needed
 }
 
 // Define User schema
 const UserSchema = new mongoose.Schema<IUser>({
-  auth0Id: {
+  userId: {
     type: String,
     required: true,
     unique: true,
