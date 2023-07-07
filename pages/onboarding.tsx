@@ -3,7 +3,7 @@ import { GetServerSideProps } from "next";
 import { withNoOnboardingCheck } from "../utils/withNoOnboardingCheck";
 import { Field } from "react-final-form";
 import Wizard from "@/components/Wizard";
-import { useRouter } from "next/router";
+import { useRouter } from "next/navigation";
 import { useUser } from "@auth0/nextjs-auth0/client";
 
 interface FormValues {
@@ -29,7 +29,7 @@ const Error = ({ name }: { name: string }) => (
 );
 
 export default function OnboardingPage() {
-  const router = useRouter();
+  const { push } = useRouter();
   const { user, error, isLoading } = useUser();
 
   if (isLoading) return <div>Loading...</div>;
@@ -37,6 +37,7 @@ export default function OnboardingPage() {
 
   const onSubmit = async (values: FormValues) => {
     try {
+      console.log("Submitting onboarding form");
       const res = await fetch("/api/onboarding", {
         method: "POST",
         headers: {
@@ -48,7 +49,8 @@ export default function OnboardingPage() {
         }),
       });
       if (res.ok) {
-        router.push("/home");
+        console.log("Onboarding form submitted successfully");
+        push("/");
       } else {
         const errorData = await res.json();
         console.error("Error during onboarding:", errorData);

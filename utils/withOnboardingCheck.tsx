@@ -23,7 +23,7 @@ export const withOnboardingCheck =
 
       // Fetch the user from MongoDB using the Auth0 ID
       const user: IUser | null = await User.findOne({
-        auth0Id: session.user.sub,
+        userId: session.user.sub,
       });
 
       // If user doesn't exist in DB or required data is missing, redirect to onboarding

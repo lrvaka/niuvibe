@@ -9,12 +9,20 @@ async function dbConnect(): Promise<void> {
     return;
   }
 
-  // Use new database connection
-  const db: Mongoose = await mongoose.connect(
-    process.env.MONGODB_URI as string
-  );
+  try {
+    // Use new database connection
+    const db: Mongoose = await mongoose.connect(
+      process.env.MONGODB_URI as string
+    );
 
-  connection.isConnected = db.connections[0].readyState;
+    connection.isConnected = db.connections[0].readyState;
+    console.log("Database connected successfully!");
+  } catch (error) {
+    console.error("Error connecting to database:", error);
+    // You can choose to throw the error or handle it gracefully.
+    // For example, you can set a flag to indicate connection failure.
+    // connection.isConnected = -1;
+  }
 }
 
 export default dbConnect;
